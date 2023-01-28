@@ -1,6 +1,5 @@
 <script lang="ts">
 	import bootstrap from "bootstrap/dist/js/bootstrap.bundle";
-	import { getText } from "./waitingModal.dic";
 
 	export function show() {
 		var modal = bootstrap.Modal.getOrCreateInstance(document.getElementById("modalLoadind"));
@@ -27,13 +26,13 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="staticLoading">
-					{getText("pleaseWait")}
+					Plase waite
 				</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" disabled />
 			</div>
 			<div class="modal-body">
 				<div class="d-flex align-items-center">
-					<strong>{getText("loading")}</strong>
+					<strong>Processing your request ...</strong>
 					<div class="spinner-border ms-auto" role="status" aria-hidden="true" />
 				</div>
 			</div>

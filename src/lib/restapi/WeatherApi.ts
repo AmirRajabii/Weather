@@ -8,7 +8,6 @@ async function getCurrentWeather(cityName: string): Promise<CurrentWeather | nul
     const response: Response = await fetch(url, {
         method: "GET",
         headers: {
-            "Content-Type": "application/json;charset=utf-8",
             accept: "*/*",
         },
         redirect: "follow",

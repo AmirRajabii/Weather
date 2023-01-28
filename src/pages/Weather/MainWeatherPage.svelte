@@ -1,30 +1,31 @@
 <script lang="ts">
-    import type WaitingModal from "$components/waitingmodal/WaitingModal.svelte";
+    import WaitingModal from "$components/waitingmodal/WaitingModal.svelte";
     import type CurrentWeather from "$lib/dto/CurrentWeather";
-    import { getCurrentWeather } from "$lib/restapi/Weather";
+    import { getCurrentWeather } from "$lib/restapi/WeatherApi";
     import { onMount } from "svelte";
     let waitingmodal: WaitingModal;
     let currentWather: CurrentWeather;
 
     async function loadCurrentWeather(cityName: string) {
         try {
-            // waitingmodal.show();
+            waitingmodal.show();
             currentWather = await getCurrentWeather(cityName);
             console.log(currentWather);
         } catch (e) {
             console.log(e);
         } finally {
             setTimeout(() => {
-                // waitingmodal.hide();
+                waitingmodal.hide();
             }, 600);
         }
     }
 
     onMount(() => {
-        // loadCurrentWeather("Tehran");
+        loadCurrentWeather("Tehran");
     });
 </script>   
-
+<WaitingModal bind:this={waitingmodal} />
+{#if currentWather}
 <div style="margin:20% auto; flex: auto;" id="gradient" />
 <div class="container">
     <div class="weather-side">
@@ -34,12 +35,12 @@
             <span class="date-day">15 Jan 2019</span><i
                 class="location-icon"
                 data-feather="map-pin"
-            /><span class="location">Paris, FR</span>
+            /><span class="location">{currentWather.name}, {currentWather.sys.country}</span>
         </div>
         <div class="weather-container">
             <i class="weather-icon" data-feather="sun" />
-            <h1 class="weather-temp">29°C</h1>
-            <h3 class="weather-desc">Sunny</h3>
+            <h1 class="weather-temp">{Math.round(currentWather.main.feels_like)}°C</h1>
+            <h3 class="weather-desc">{currentWather.weather[0].description}</h3>
         </div>
     </div>
     <div class="info-side">
@@ -59,7 +60,7 @@
                 </div>
                 <div class="wind">
                     <span class="title">WIND</span><span class="value"
-                        >0 km/h</span
+                        >{currentWather.wind.speed} km/h</span
                     >
                     <div class="clear" />
                 </div>
@@ -91,9 +92,10 @@
             </ul>
         </div>
         <div class="location-container">
-            <button class="location-button" on:click={()=>{loadCurrentWeather("Tehran")}}>
+            <button class="location-button">
                 <i data-feather="map-pin" /><span>Change location</span></button
             >
         </div>
     </div>
 </div>
+{/if}

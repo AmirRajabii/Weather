@@ -28,6 +28,7 @@ class Main {
     public feels_like: number;
     public temp_min: number;
     public temp_max: number;
+    public humidity : number;
     constructor(strjson: string) {
         Object.assign(this, strjson);
     }
